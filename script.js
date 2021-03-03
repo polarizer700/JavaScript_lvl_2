@@ -34,7 +34,7 @@ renderGoods();
 */
 
 
-fetch('https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json')
+/*fetch('https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json')
     .then(response => response.json())
     .then(json => list.getGoods(json))
     .then(json => list.render(json))
@@ -97,3 +97,55 @@ function addToBascet(item) {
         console.log("www");
     })
 }
+*/
+const BASE_URL = 'https://mock-api-builder.vercel.app/api/schema/get';
+
+const app = new Vue({
+  el: '#root',
+  data: {
+    showCart: false,
+    cartItems: [],
+    goods: [],
+    filteredGoods: [],
+    searchGoods: '',
+    errorMessage: '',
+  },
+  methods: {
+    toggleCart() {
+      this.showCart = !this.showCart;
+    },
+    addToCart(item) {
+      let existant = false;
+      for (const goodsItem of this.cartItems) {
+        if (goodsItem.id === item.id) {
+          existant = true;
+          goodsItem.quantity += 1;
+        }
+      }
+
+      if (!existant) {
+        this.cartItems.push({ ...item, quantity: 1 });
+      }
+    },
+    removeFromCart(id) {},
+    filterGoods() {
+      if (!this.goods.length) this.filteredGoods = [];
+      if (!this.searchGoods) this.filteredGoods = this.goods;
+      this.filteredGoods = this.goods.filter(i => i.productName.toLowerCase().includes(this.searchGoods.toLowerCase()));
+    },
+    getGoods() {
+      fetch(`${BASE_URL}/602c166a89c4a60009ef7046`)
+        .then(r => r.json())
+        .then(r => {
+          this.goods = r;
+          this.filteredGoods = this.goods;
+        })
+        .catch(e => {
+          this.errorMessage = e;
+        });
+    },
+  },
+  mounted() {
+    this.getGoods();
+  },
+});

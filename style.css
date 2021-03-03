@@ -131,3 +131,17 @@ body{
 .cartButton img{
   margin-right: 12px;
 }
+.menuContnent{
+  position: relative;
+}
+.cartWithProduct{
+  position: absolute;
+  padding: 32px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  width: 60%;
+  top: 48px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}

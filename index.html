@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  <div class="wrapper">
+  <div class="wrapper" id="root">
     <header>
         <div class="menuContnent container">
           <nav class="menu">
@@ -22,15 +22,47 @@
           </nav>
 
           <div class="cart">
-            <button class="cartButton"><img src="img/cart.png" alt="cart"> корзина</button>
+            <button @click="toggleCart()" class="cartButton">{{showCart ? "Close cart" : "Show cart"}}</button>
+
           </div>
+          <div data-id="cart" v-if="showCart" class="cartWithProduct">
+            <div class="goods-item" v-for="item in cartItems">
+                <h3>{{item.productName}}</h3>
+                <span>{{item.price}}</span>
+                <span>there are {{item.quantity}} of this items in the cart</span>
+                <button>remove from cart <img src="img/addcart.png" alt="cart"></button>
+            </div>
+            <!-- <h2>Cart sum - {{}}</h2> -->
+            <hr/>
+          </div>
+        </div>
+        <div class="searchBlock container">
+          <input type="search" placeholder="Search" v-model="searchGoods">
+          <button @click="filterGoods">Search</button>
         </div>
     </header>
 
     <main>
-      <div class="goods-list container"></div>
+      <div data-id="goods" class="goods-list container">
+            <div class="goods-item item" v-for="item in filteredGoods">
+              <div class="bgimg">
+              <!--<img src="img/${id_product}.png" alt="product" class="productImg"">-->
+                <div class="bgimg-black">
+                  <button @click="addToCart(item)"><img src="img/addcart.png" alt="cart"> Add to Cart</button>
+                </div>
+              </div>
+              <div class="price">
+                <h3>{{item.productName}}</h3>
+                <p>{{item.price}}</p>
+              </div>
+
+
+            </div>
+        </div>
     </main>
   </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
